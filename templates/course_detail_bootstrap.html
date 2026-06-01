@@ -1,0 +1,26 @@
+<div class="card mt-4">
+    <div class="card-header bg-primary text-white">
+        <h5>Course Exam</h5>
+    </div>
+    <div class="card-body">
+        <form action="{% url 'onlinecourse:submit' course.id %}" method="post">
+            {% csrf_token %}
+            {% for question in course.question_set.all %}
+                <div class="card mt-2 mb-3 border-secondary">
+                    <div class="card-header"><h5>{{ question.question_text }}</h5></div>
+                    <div class="card-body">
+                        {% for choice in question.choice_set.all %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="choice_{{choice.id}}" id="{{choice.id}}" value="{{choice.id}}">
+                                <label class="form-check-label" for="{{choice.id}}">
+                                    {{ choice.choice_text }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+            <button class="btn btn-success btn-block" type="submit">Submit Exam</button>
+        </form>
+    </div>
+</div>
